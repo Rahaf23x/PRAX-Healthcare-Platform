@@ -1,0 +1,1 @@
+- [PRAX demo flow](prax-demo-flow.md) — keep emergency handoff behavior fictional, local, and clearly separated from real medical integrations.
