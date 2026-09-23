@@ -97,7 +97,7 @@
 
   --sidebar-border: 211 39% 26%;
 
-  --sidebar-primary: 174 58% 50%;
+  --sidebar-primary: 203 78% 58%;
 
   --sidebar-primary-foreground: 211 49% 18%;
 
@@ -105,7 +105,7 @@
 
   --sidebar-accent-foreground: 204 45% 98%;
 
-  --sidebar-ring: 174 58% 50%;
+  --sidebar-ring: 203 78% 58%;
 
   --popover: 204 45% 98%;
 
@@ -113,7 +113,7 @@
 
   --popover-border: 201 28% 85%;
 
-  --primary: 174 58% 39%;
+  --primary: 203 78% 45%;
 
   --primary-foreground: 204 45% 98%;
 
@@ -134,8 +134,8 @@
   --destructive-foreground: 204 45% 98%;
 
   --input: 201 28% 85%;
-  --ring: 174 58% 39%;
-  --chart-1: 174 58% 39%;
+  --ring: 203 78% 45%;
+  --chart-1: 203 78% 45%;
   --chart-2: 39 92% 57%;
   --chart-3: 4 76% 56%;
   --chart-4: 211 49% 38%;
@@ -246,7 +246,7 @@
 
   --sidebar-border: 211 34% 20%;
 
-  --sidebar-primary: 174 58% 50%;
+  --sidebar-primary: 203 78% 58%;
 
   --sidebar-primary-foreground: 211 49% 18%;
 
@@ -254,7 +254,7 @@
 
   --sidebar-accent-foreground: 204 45% 98%;
 
-  --sidebar-ring: 174 58% 50%;
+  --sidebar-ring: 203 78% 58%;
 
   --popover: 211 41% 17%;
 
@@ -262,7 +262,7 @@
 
   --popover-border: 211 34% 27%;
 
-  --primary: 174 58% 50%;
+  --primary: 203 78% 58%;
 
   --primary-foreground: 211 49% 18%;
 
@@ -284,8 +284,8 @@
 
   /* Used as the border around inputs. Dark mode: Should be a border that is light enough to have high contrast when rendered on a --card background. More contrast than standard --border */
   --input: 211 34% 27%;
-  --ring: 174 58% 50%;
-  --chart-1: 174 58% 50%;
+  --ring: 203 78% 58%;
+  --chart-1: 203 78% 58%;
   --chart-2: 39 92% 57%;
   --chart-3: 4 76% 56%;
   --chart-4: 203 33% 72%;
