@@ -26,7 +26,7 @@ function useFlowLanguage() {
 }
 
 function Logo() {
-  return <div className="flex items-center gap-3"><div dir="ltr" aria-label="Prax" className="relative flex items-center text-[30px] font-black leading-none tracking-[-.1em] text-[#16486f]"><span>Prax</span><svg aria-hidden="true" viewBox="0 0 76 24" className="pointer-events-none absolute start-0 top-[56%] h-5 w-[76px] -translate-y-1/2"><path d="M2 13h15l4-1 4-8 5 15 5-10h13l4-3 4 3h18" fill="none" stroke="#e54b5d" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" /></svg></div><div className="hidden sm:block"><div className="text-[10px] font-bold leading-tight text-[hsl(var(--muted-foreground))]">Smart Patient Identification</div><div className="text-[10px] leading-tight text-[hsl(var(--muted-foreground))]">During Ambulance Transport</div></div></div>;
+  return <div className="flex items-center gap-3"><div dir="ltr" aria-label="Prax" className="relative flex h-9 w-[70px] items-center text-[30px] font-black leading-none tracking-[-.1em] text-[#16486f]"><span>Prax</span><svg aria-hidden="true" viewBox="0 0 70 12" className="pointer-events-none absolute start-0 top-[78%] h-3 w-[70px] -translate-y-1/2"><path d="M2 6h18l3-4 4 8 4-5h11l3-2 3 2h17" fill="none" stroke="#e54b5d" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.1" /></svg></div><div className="hidden sm:block"><div className="text-[10px] font-bold leading-tight text-[hsl(var(--muted-foreground))]">Smart Patient Identification</div><div className="text-[10px] leading-tight text-[hsl(var(--muted-foreground))]">During Ambulance Transport</div></div></div>;
 }
 
 function LanguageSwitch({ lang, setLang, t }: { lang: Lang; setLang: (value: Lang) => void; t: Copy }) {
