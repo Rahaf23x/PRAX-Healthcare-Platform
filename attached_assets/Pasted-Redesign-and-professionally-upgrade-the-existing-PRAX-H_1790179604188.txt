@@ -1,0 +1,463 @@
+Redesign and professionally upgrade the existing PRAX Healthcare Platform without rebuilding the project from scratch.
+
+PRAX is a smart emergency patient identification and medical information platform designed to help paramedics and hospitals access critical patient information quickly during ambulance transport.
+
+IMPORTANT:
+- Do NOT delete or break any existing functionality.
+- Do NOT replace working features with mock screens.
+- Keep the existing routing, logic, data, authentication, language switching, medication analysis, and patient information functionality.
+- First inspect the existing codebase and understand the current structure, then improve it.
+- Make the changes directly to the existing application.
+- The final result must look like a real professional healthcare technology product, not a hackathon prototype.
+
+## 1. Overall Visual Direction
+
+Create a premium, modern healthcare interface inspired by professional medical platforms and emergency-response systems.
+
+Use:
+- Clean white and very light blue-gray backgrounds
+- Deep navy for primary text
+- Professional medical blue as the main accent
+- Very limited red only for critical warnings
+- Subtle teal/green for verified or safe states
+- Soft shadows
+- Large clean cards
+- Rounded corners, but avoid excessive rounded/pill-shaped elements
+- Strong visual hierarchy
+- Plenty of whitespace
+- Consistent spacing and alignment
+- Professional typography
+- Minimal and elegant icons
+
+The interface should feel:
+Professional
+Trustworthy
+Calm
+Medical
+Fast
+Secure
+Premium
+Emergency-ready
+
+Avoid:
+- Excessive gradients
+- Excessive animations
+- Neon colors
+- Cartoon-style illustrations
+- Overly decorative elements
+- Generic AI-dashboard aesthetics
+- Crowded layouts
+
+## 2. PRAX Brand Identity
+
+Strengthen the PRAX visual identity throughout the entire platform.
+
+Create a consistent brand system using:
+- PRAX logo
+- PRAX wordmark
+- Medical/emergency visual language
+- Consistent iconography
+- Consistent button styles
+- Consistent cards
+- Consistent status indicators
+
+The PRAX brand should immediately communicate:
+"Critical medical information, available when it matters."
+
+Keep the existing PRAX logo if it already exists. Improve its placement and visual presentation rather than replacing it unnecessarily.
+
+## 3. Main Navigation
+
+Create a clean professional top navigation.
+
+Include:
+- PRAX logo
+- Current workspace/role
+- Language switcher: English / العربية
+- Notifications
+- User profile
+- Secure connection indicator
+
+The navigation should remain compact and professional.
+
+On mobile and tablet, convert it into a responsive navigation system without breaking usability.
+
+## 4. Patient Profile Page
+
+Redesign the existing patient profile page shown in the current application.
+
+The patient profile should have a strong information hierarchy.
+
+At the top, display:
+
+Patient name
+Patient ID
+Verification status
+Last medical record update
+Emergency status
+
+Create a compact patient identity section containing:
+
+- Patient name
+- Patient ID
+- Age
+- Gender
+- Blood type
+- National ID
+- Emergency contact
+
+Make the most clinically important information visually prominent.
+
+## 5. Emergency Status
+
+Add a highly visible but professional emergency status component.
+
+Example:
+
+EMERGENCY STATUS
+Critical
+
+or
+
+Stable
+
+or
+
+Needs Attention
+
+Use restrained colors and clear visual indicators.
+
+Do NOT make the page look alarming or overly red.
+
+## 6. Vital Signs
+
+Improve the Vital Signs section significantly.
+
+Display:
+
+Heart Rate
+Blood Pressure
+SpO₂
+Respiratory Rate
+Temperature
+Consciousness
+
+Each vital should have:
+- Medical icon
+- Label
+- Current value
+- Unit
+- Status indicator when appropriate
+- Timestamp
+
+Make abnormal values visually distinguishable without overwhelming the interface.
+
+Use a clear visual hierarchy so a paramedic can understand the patient's current condition within seconds.
+
+## 7. Critical Medical Information
+
+This should be one of the most important sections on the page.
+
+Create visually distinct cards for:
+
+ALLERGIES
+CHRONIC CONDITIONS
+CURRENT MEDICATIONS
+IMPORTANT MEDICAL HISTORY
+
+Allergies should be especially noticeable because of their emergency importance.
+
+For example:
+
+ALLERGIES
+Penicillin
+Severe allergic reaction
+
+Use a professional warning treatment rather than a large aggressive red block.
+
+## 8. Medication Safety
+
+Improve the existing medication analysis section.
+
+Create a professional "Medication Safety" panel.
+
+It should clearly distinguish between:
+
+- No known interaction
+- Potential interaction
+- Serious interaction
+- Allergy concern
+
+When analysis is running:
+show a clean loading state.
+
+When analysis is complete:
+show the result with:
+- Severity
+- Medication names
+- Explanation
+- Recommended clinical attention
+- Source/reference when available
+
+Important:
+The system should present this as clinical decision support, NOT as an independent medical diagnosis or treatment decision.
+
+## 9. Emergency Contact
+
+Create a clear emergency contact section with:
+
+Contact name
+Relationship
+Phone number
+Emergency call button
+
+Make the call action easy to find on mobile.
+
+## 10. Ambulance / Transport Information
+
+Add a professional transport status section.
+
+Display:
+
+Ambulance status
+Current destination
+Receiving hospital
+Estimated arrival
+Paramedic/team
+Case ID
+
+Use a clean timeline or status tracker such as:
+
+Patient identified
+Medical information reviewed
+Hospital selected
+Hospital notified
+Patient en route
+Arrived
+
+This should make the emergency workflow understandable at a glance.
+
+## 11. Hospital Portal
+
+Improve the Hospital workspace so it feels like a real hospital emergency dashboard.
+
+Include:
+
+Incoming emergency cases
+Patient name
+Case ID
+Emergency severity
+Current vitals
+Allergies
+Estimated arrival
+Ambulance status
+
+Create a professional emergency case list.
+
+Allow hospital staff to quickly open a patient case.
+
+## 12. Paramedic Workspace
+
+Improve the Paramedic workspace.
+
+The main workflow should be extremely simple:
+
+1. Identify patient
+2. Verify identity
+3. Review critical medical information
+4. Record vital signs
+5. Review medication safety
+6. Select receiving hospital
+7. Share patient information
+8. Monitor transport status
+
+Make this workflow visually obvious.
+
+## 13. Patient Identification Screen
+
+Redesign the patient identification screen.
+
+Create two clear options:
+
+PRIMARY METHOD
+Fingerprint Identification
+
+SECONDARY METHOD
+National ID
+
+The fingerprint interface should look realistic and professional without pretending that a real fingerprint scanner is connected if it is not.
+
+Clearly label demo/simulated functionality when appropriate.
+
+## 14. Dashboard
+
+Create a professional dashboard for each role.
+
+Paramedic dashboard:
+- Active emergency cases
+- Recently identified patients
+- Pending hospital transfers
+- Alerts
+- Quick patient identification
+
+Hospital dashboard:
+- Incoming patients
+- Active emergency cases
+- Critical cases
+- Ambulance arrivals
+- Recent patient records
+
+Use clean statistics and charts only where they genuinely help.
+
+Do not overcrowd the dashboard.
+
+## 15. Arabic and English
+
+The application must support both:
+
+English
+العربية
+
+Arabic must use proper RTL layout.
+
+When Arabic is selected:
+- Entire layout switches to RTL
+- Text alignment changes correctly
+- Cards and navigation adapt
+- Icons remain correctly positioned
+- Tables remain usable
+- No overlapping or broken layouts
+
+Make the language switch seamless.
+
+## 16. Responsive Design
+
+The application must work professionally on:
+
+- iPhone
+- iPad
+- Android phones
+- Tablets
+- Desktop
+- Large screens
+
+Do not simply shrink the desktop design.
+
+Create responsive layouts specifically for smaller screens.
+
+On mobile:
+- Critical patient information should remain immediately visible
+- Buttons should be touch-friendly
+- Navigation should remain simple
+- Emergency actions should remain easy to access
+
+## 17. UX Improvements
+
+Improve the user experience throughout the platform.
+
+Add:
+- Clear loading states
+- Skeleton loaders where appropriate
+- Empty states
+- Success messages
+- Error messages
+- Confirmation states
+- Tooltips for unfamiliar medical/system icons
+- Consistent button hierarchy
+- Clear primary actions
+
+Avoid unnecessary popups.
+
+## 18. Accessibility
+
+Improve accessibility:
+
+- Good color contrast
+- Readable typography
+- Keyboard navigation
+- Visible focus states
+- Proper semantic HTML
+- Accessible buttons
+- Accessible form labels
+- Do not rely on color alone to communicate medical severity
+
+## 19. Security UX
+
+Because PRAX handles sensitive medical information, make the interface communicate security and privacy professionally.
+
+Include subtle indicators such as:
+
+Secure connection
+Verified patient identity
+Authorized access
+Last access time
+
+Do not expose unnecessary sensitive patient information.
+
+## 20. Visual Polish
+
+Perform a complete visual consistency pass across the application.
+
+Make sure:
+- All cards use consistent spacing
+- Buttons have consistent sizes
+- Icons have consistent style
+- Typography follows a clear hierarchy
+- Headings are consistent
+- Borders and shadows are subtle
+- Sections are visually separated
+- Tables are readable
+- Forms are polished
+- No placeholder-looking UI remains
+
+The final application should look comparable to a serious healthcare SaaS product.
+
+## 21. Do Not Overdesign
+
+PRAX is an emergency healthcare platform.
+
+Speed and clarity are more important than decoration.
+
+A paramedic should be able to understand the patient's critical information within seconds.
+
+Prioritize:
+CLARITY → SPEED → SAFETY → TRUST → VISUAL POLISH
+
+## 22. Technical Requirements
+
+Before making changes:
+1. Inspect the entire existing project structure.
+2. Identify the current frontend framework.
+3. Identify the backend.
+4. Identify the database.
+5. Identify existing routes.
+6. Identify authentication.
+7. Identify existing API endpoints.
+8. Identify existing patient data structures.
+9. Identify the existing Arabic/English implementation.
+10. Preserve working functionality.
+
+Then implement the redesign using the existing technology stack whenever possible.
+
+Do not introduce unnecessary frameworks or dependencies.
+
+After implementation:
+- Run the application
+- Test all existing routes
+- Test Arabic and English
+- Test responsive layouts
+- Test patient identification flow
+- Test patient profile
+- Test medication analysis
+- Test paramedic workflow
+- Test hospital workflow
+- Fix all TypeScript/build/runtime errors
+- Make sure the application remains functional
+
+FINAL GOAL:
+
+Transform the current PRAX interface into a polished, premium, production-oriented healthcare platform.
+
+It should look like a real product that could be presented to hospitals, emergency medical services, healthcare organizations, and potential investors.
+
+Do not make it look like a student project or hackathon demo.
