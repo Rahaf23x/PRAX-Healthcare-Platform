@@ -125,6 +125,13 @@ export const prototypeCopy = {
       run: 'Run AI review',
       complete: 'AI review complete',
     },
+    consultation: {
+      title: 'Physician consultation',
+      description: 'Send the case to a physician for an expert review before arrival.',
+      request: 'Request physician review',
+      sent: 'Consultation request sent',
+      received: 'A physician has been notified to review the case.',
+    },
     hospitals: {
       title: 'Select a nearby hospital',
       subtitle: 'Choose an available emergency department for the incoming case.',
@@ -334,6 +341,13 @@ export const prototypeCopy = {
       disclaimerAr: 'الذكاء الاصطناعي يقدم دعمًا لاتخاذ القرار السريري ولا يحل محل الطبيب.',
       run: 'تشغيل المراجعة الذكية',
       complete: 'اكتملت مراجعة الذكاء الاصطناعي',
+    },
+    consultation: {
+      title: 'استشارة الطبيب',
+      description: 'أرسل الحالة إلى الطبيب لمراجعتها قبل وصول المريض.',
+      request: 'طلب مراجعة الطبيب',
+      sent: 'تم إرسال طلب الاستشارة',
+      received: 'تم إشعار الطبيب لمراجعة الحالة.',
     },
     hospitals: {
       title: 'اختر مستشفى قريباً',
