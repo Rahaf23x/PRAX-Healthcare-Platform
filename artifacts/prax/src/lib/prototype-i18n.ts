@@ -468,7 +468,7 @@ export const demoPatient = {
     oxygen: '96',
     respiratory: '18',
     temperature: '37.1',
-    consciousness: { en: 'Alert', ar: 'يقظ' },
+    consciousness: { en: 'Unconscious', ar: 'فاقد للوعي' },
   },
 } as const;
 
