@@ -10,9 +10,10 @@ import {
 } from '@/lib/prototype-i18n';
 import { DemoLogin } from '@/components/demo-login';
 import { VitalSigns } from '@/components/vital-signs';
+import { DemoNotice, HospitalCaseDetail, HospitalOperations, ParamedicOperations, TransportTracker } from '@/components/operations';
 
 type Role = 'paramedic' | 'hospital';
-type View = 'role' | 'login' | 'identify' | 'record' | 'hospitals' | 'share' | 'sent' | 'hospital';
+type View = 'role' | 'login' | 'paramedic-dashboard' | 'hospital-dashboard' | 'transport' | 'identify' | 'record' | 'hospitals' | 'share' | 'sent' | 'hospital';
 type ScanState = 'idle' | 'scanning' | 'verifying' | 'verified';
 type NotificationKey = keyof typeof prototypeCopy.en.notifications;
 type Copy = PrototypeCopy;
@@ -53,7 +54,7 @@ function ThemeToggle({ t }: { t: Copy }) {
 }
 
 function Badge({ children, tone = 'teal' }: { children: ReactNode; tone?: 'teal' | 'red' | 'amber' | 'blue' | 'slate' }) {
-  const color = { teal: 'bg-[hsl(var(--primary)/.12)] text-[hsl(var(--primary))]', red: 'bg-[hsl(var(--destructive)/.12)] text-[hsl(var(--destructive))]', amber: 'bg-[hsl(var(--accent)/.2)] text-[hsl(33_70%_31%)] dark:text-[hsl(39_92%_77%)]', blue: 'bg-[hsl(203_78%_45%/.12)] text-[hsl(203_78%_38%)] dark:text-[hsl(203_78%_72%)]', slate: 'bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]' };
+  const color = { teal: 'bg-[hsl(var(--primary)/.12)] text-[hsl(var(--primary))]', red: 'bg-[hsl(var(--destructive)/.12)] text-[hsl(var(--destructive))]', amber: 'bg-[hsl(var(--accent)/.2)] text-[hsl(33_70%_31%)]', blue: 'bg-[hsl(203_78%_45%/.12)] text-[hsl(203_78%_38%)]', slate: 'bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]' };
   return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold ${color[tone]}`}>{children}</span>;
 }
 
@@ -65,24 +66,14 @@ function SectionTitle({ icon: Icon, title, action }: { icon: LucideIcon; title: 
   return <div className="flex items-center justify-between gap-3 border-b border-[hsl(var(--border)/.8)] px-5 py-4"><div className="flex items-center gap-2.5 text-sm font-extrabold tracking-[-.01em]"><span className="grid size-8 place-items-center rounded-lg bg-[hsl(var(--primary)/.09)] text-[hsl(var(--primary))]"><Icon size={16} /></span>{title}</div>{action}</div>;
 }
 
-function Shell({ children, role, lang, setLang, t, notifications, onHome, onNotifications, notificationOpen }: { children: ReactNode; role: Role; lang: Lang; setLang: (value: Lang) => void; t: Copy; notifications: NotificationKey[]; onHome: () => void; onNotifications: () => void; notificationOpen: boolean }) {
+function Shell({ children, role, lang, setLang, t, notifications, onHome, onSwitchRole, onNotifications, notificationOpen, showNotice = true }: { children: ReactNode; role: Role; lang: Lang; setLang: (value: Lang) => void; t: Copy; notifications: NotificationKey[]; onHome: () => void; onSwitchRole?: () => void; onNotifications: () => void; notificationOpen: boolean; showNotice?: boolean }) {
   return <div className="min-h-[100dvh] bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
-    <header className="sticky top-0 z-30 border-b border-[hsl(var(--border))] bg-[hsl(var(--background)/.94)] px-3 py-3 backdrop-blur-xl sm:px-5 md:px-9">
-      <div className="mx-auto flex max-w-[1480px] items-center justify-between gap-2 sm:gap-4">
-        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-          <button type="button" onClick={onHome} aria-label={t.app.backHome} className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-2.5 py-2 text-xs font-extrabold text-[hsl(var(--muted-foreground))] transition hover:border-[hsl(var(--primary)/.45)] hover:text-[hsl(var(--primary))] sm:px-3"><ArrowRight size={15} className="rotate-180 rtl:rotate-0" /><span className="hidden sm:inline">{t.common.back}</span></button>
-          <button type="button" onClick={onHome} aria-label={t.app.backHome} className="shrink-0"><Logo compact /></button>
-        </div>
-        <div className="hidden items-center gap-2 rounded-full bg-[hsl(var(--muted)/.7)] px-3 py-2 text-[11px] font-bold text-[hsl(var(--muted-foreground))] lg:flex">{role === 'paramedic' ? <Ambulance size={14} className="text-[hsl(var(--primary))]" /> : <Hospital size={14} className="text-[hsl(var(--primary))]" />}{role === 'paramedic' ? t.app.paramedic : t.app.hospital}</div>
-        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <button type="button" onClick={onNotifications} aria-label={t.notifications.title} className="relative rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2.5 text-[hsl(var(--muted-foreground))]"><Bell size={17} />{notifications.length > 0 && <span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-[hsl(var(--destructive))] text-[9px] text-white">{notifications.length}</span>}</button>
-          <ThemeToggle t={t} />
-          <LanguageSwitch lang={lang} setLang={setLang} t={t} />
-        </div>
-        {notificationOpen && <div className="absolute end-3 top-full mt-1 w-[min(340px,calc(100vw-1.5rem))] rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-xl md:end-9"><div className="mb-3 flex items-center justify-between text-sm font-extrabold">{t.notifications.title}<button type="button" onClick={onNotifications} aria-label={t.common.close}><X size={16} /></button></div><div className="space-y-2">{notifications.length === 0 ? <p className="text-xs text-[hsl(var(--muted-foreground))]">{t.notifications.empty}</p> : notifications.map((item, index) => <div key={`${item}-${index}`} className="flex gap-2 rounded-xl bg-[hsl(var(--muted)/.7)] p-3 text-xs"><span className="mt-1 size-2 shrink-0 rounded-full bg-[hsl(var(--primary))]" />{t.notifications[item]}</div>)}</div></div>}
-      </div>
-    </header>{children}
-  </div>;
+    <header className="sticky top-0 z-30 border-b border-[hsl(var(--border))] bg-[hsl(var(--background)/.94)] px-4 py-3 backdrop-blur-xl md:px-9"><div className="mx-auto flex max-w-[1480px] flex-wrap items-center justify-between gap-2">
+       <div className="flex items-center gap-2"><button data-testid="button-back-role-dashboard" type="button" onClick={onHome} aria-label={t.ops.openDashboard} className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-2.5 py-2 text-xs font-extrabold text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] sm:px-3"><ArrowRight size={15} className="rotate-180 rtl:rotate-0" /><span className="hidden sm:inline">{t.ops.openDashboard}</span></button><button data-testid="button-logo-dashboard" type="button" onClick={onHome} aria-label={t.ops.openDashboard}><Logo compact /></button></div>
+      <div className="hidden items-center gap-2 rounded-full bg-[hsl(var(--muted)/.7)] px-3 py-2 text-[11px] font-bold text-[hsl(var(--muted-foreground))] md:flex">{role === 'paramedic' ? <Ambulance size={14} /> : <Hospital size={14} />}{role === 'paramedic' ? t.app.paramedic : t.app.hospital}</div>
+      <div className="flex items-center gap-1 sm:gap-2">{onSwitchRole && <button data-testid="button-switch-role" type="button" onClick={onSwitchRole} className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2 text-xs font-bold text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]">{t.app.switchRole}</button>}<button data-testid="button-notifications" type="button" onClick={onNotifications} aria-label={t.notifications.title} className="relative rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2.5 text-[hsl(var(--muted-foreground))]"><Bell size={17} />{notifications.length > 0 && <span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-[hsl(var(--destructive))] text-[9px] text-white">{notifications.length}</span>}</button><ThemeToggle t={t} /><LanguageSwitch lang={lang} setLang={setLang} t={t} /></div>
+       {notificationOpen && <div className="absolute end-3 top-full mt-1 w-[min(340px,calc(100vw-1.5rem))] rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-xl md:end-9"><div className="mb-3 flex items-center justify-between text-sm font-extrabold">{t.notifications.title}<button data-testid="button-close-notifications" type="button" onClick={onNotifications} aria-label={t.common.close}><X size={16} /></button></div><div className="space-y-2">{notifications.length === 0 ? <p className="text-xs text-[hsl(var(--muted-foreground))]">{t.notifications.empty}</p> : notifications.map((item, index) => <div key={`${item}-${index}`} className="flex gap-2 rounded-xl bg-[hsl(var(--muted)/.7)] p-3 text-xs"><span className="mt-1 size-2 shrink-0 rounded-full bg-[hsl(var(--primary))]" />{t.notifications[item]}</div>)}</div></div>}
+    </div></header>{showNotice && <div className="mx-auto max-w-[1480px] px-5 pt-4 md:px-9"><DemoNotice t={t} /></div>}{children}</div>;
 }
 
 function Progress({ view, t }: { view: View; t: Copy }) {
@@ -197,8 +188,8 @@ function ShareReview({ lang, setLang, t, selected, onSend, onHome, notifications
   return <Shell role="paramedic" lang={lang} setLang={setLang} t={t} notifications={notifications} notificationOpen={notificationOpen} onNotifications={onNotifications} onHome={onHome}><main className="mx-auto max-w-5xl px-5 py-8 md:px-9 md:py-10"><Progress view="share" t={t} /><div className="mb-7"><div className="text-[10px] font-extrabold uppercase tracking-[.18em] text-[hsl(var(--primary))]">{t.share.step}</div><h1 className="mt-2 text-3xl font-extrabold">{t.share.title}</h1><p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">{t.share.subtitle}</p></div><Card><SectionTitle icon={LockKeyhole} title={t.share.summary} action={<Badge><ShieldCheck size={13} />{t.common.secure}</Badge>} /><div className="divide-y divide-[hsl(var(--border))]">{rows.map(({ icon: Icon, title, value }) => <div key={title} className="flex gap-4 p-5"><div className="grid size-9 shrink-0 place-items-center rounded-xl bg-[hsl(var(--secondary))] text-[hsl(var(--primary))]"><Icon size={17} /></div><div><div className="text-xs font-bold text-[hsl(var(--muted-foreground))]">{title}</div><div className="mt-1 text-sm font-extrabold">{value}</div></div></div>)}<div className="flex gap-4 p-5"><div className="grid size-9 place-items-center rounded-xl bg-[hsl(var(--secondary))] text-[hsl(var(--primary))]"><Hospital size={17} /></div><div><div className="text-xs font-bold text-[hsl(var(--muted-foreground))]">{t.share.selected}</div><div className="mt-1 text-sm font-extrabold">{localize(hospital.name, lang)}</div></div></div></div><div className="flex items-center justify-between gap-4 border-t border-[hsl(var(--border))] bg-[hsl(var(--muted)/.5)] p-5"><span className="flex items-center gap-2 text-xs text-[hsl(var(--muted-foreground))]"><LockKeyhole size={14} className="text-[hsl(var(--primary))]" />{t.common.secure}</span><button type="button" data-testid="button-send-securely" onClick={onSend} className="inline-flex items-center gap-2 rounded-xl bg-[hsl(var(--primary))] px-5 py-3 text-sm font-extrabold text-white">{t.share.send}<Send size={16} /></button></div></Card></main></Shell>;
 }
 
-function Sent({ lang, setLang, t, openHospital, reset, notifications, onHome }: { lang: Lang; setLang: (value: Lang) => void; t: Copy; openHospital: () => void; reset: () => void; notifications: NotificationKey[]; onHome: () => void }) {
-  return <Shell role="paramedic" lang={lang} setLang={setLang} t={t} notifications={notifications} notificationOpen={false} onNotifications={() => undefined} onHome={onHome}><main className="mx-auto flex min-h-[calc(100dvh-82px)] max-w-3xl items-center justify-center px-5 py-12"><Card className="w-full p-8 text-center md:p-12"><div className="mx-auto grid size-20 place-items-center rounded-full bg-[hsl(var(--primary)/.12)] text-[hsl(var(--primary))]"><CheckCircle2 size={42} /></div><h1 className="mt-7 text-3xl font-extrabold">{t.share.sentTitle}</h1><p dir="rtl" className="mt-3 text-base text-[hsl(var(--muted-foreground))]">{t.share.sentArabic}</p><p className="mx-auto mt-4 max-w-lg text-sm text-[hsl(var(--muted-foreground))]">{t.share.sentCopy}</p><div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={openHospital} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[hsl(var(--primary))] px-5 py-3 text-sm font-extrabold text-white">{t.share.viewHospital}<ArrowRight size={16} className="rtl:rotate-180" /></button><button type="button" onClick={reset} className="rounded-xl border border-[hsl(var(--border))] px-5 py-3 text-sm font-extrabold">{t.share.sendAnother}</button></div></Card></main></Shell>;
+function Sent({ lang, setLang, t, openHospital, openTracker, reset, notifications, onHome }: { lang: Lang; setLang: (value: Lang) => void; t: Copy; openHospital: () => void; openTracker: () => void; reset: () => void; notifications: NotificationKey[]; onHome: () => void }) {
+  return <Shell role="paramedic" lang={lang} setLang={setLang} t={t} notifications={notifications} notificationOpen={false} onNotifications={() => undefined} onHome={onHome}><main className="mx-auto flex min-h-[calc(100dvh-82px)] max-w-3xl flex-col items-center justify-center gap-5 px-5 py-12"><Card className="w-full p-8 text-center md:p-12"><div className="mx-auto grid size-20 place-items-center rounded-full bg-[hsl(var(--primary)/.12)] text-[hsl(var(--primary))]"><CheckCircle2 size={42} /></div><h1 className="mt-7 text-3xl font-extrabold">{t.share.sentTitle}</h1><p className="mx-auto mt-4 max-w-lg text-sm text-[hsl(var(--muted-foreground))]">{t.share.sentCopy}</p><div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row"><button data-testid="button-open-hospital-view" type="button" onClick={openHospital} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[hsl(var(--primary))] px-5 py-3 text-sm font-extrabold text-white">{t.share.viewHospital}<ArrowRight size={16} className="rtl:rotate-180" /></button><button data-testid="button-sent-transport" type="button" onClick={openTracker} className="rounded-xl border border-[hsl(var(--primary)/.4)] px-5 py-3 text-sm font-extrabold text-[hsl(var(--primary))]">{t.ops.openTracker}</button><button data-testid="button-sent-new-case" type="button" onClick={reset} className="rounded-xl border border-[hsl(var(--border))] px-5 py-3 text-sm font-extrabold">{t.share.sendAnother}</button></div></Card></main></Shell>;
 }
 
 function HospitalDashboard({ lang, setLang, t, checklist, toggleChecklist, notifications, notificationOpen, onNotifications, onHome }: { lang: Lang; setLang: (value: Lang) => void; t: Copy; checklist: boolean[]; toggleChecklist: (index: number) => void; notifications: NotificationKey[]; notificationOpen: boolean; onNotifications: () => void; onHome: () => void }) {
@@ -239,34 +230,33 @@ export function PraxFlow() {
   const [selectedHospital, setSelectedHospital] = useState<string>(demoHospitals[0].id);
   const [notifications, setNotifications] = useState<NotificationKey[]>([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  const [checklist, setChecklist] = useState([true, true, true, true, true, false]);
+  const [checklist, setChecklist] = useState([false, false, false, false, false, false]);
+  const [stage, setStage] = useState(0);
 
   const addNotification = (key: NotificationKey) => setNotifications((current) => current.includes(key) ? current : [key, ...current]);
-  const reset = () => { setView('role'); setRole(null); setScanState('idle'); setNationalId(''); setIdError(false); setNotifications([]); setChecklist([true, true, true, true, true, false]); setNotificationOpen(false); };
-  const choose = (nextRole: Role) => { setRole(nextRole); setView('login'); };
-  const enterDemo = () => {
-    if (role === 'hospital') {
-      setNotifications(['received', 'record', 'eta', 'team']);
-      setView('hospital');
-    } else {
-      setView('identify');
-    }
-  };
-  const scan = () => { setScanState('scanning'); window.setTimeout(() => setScanState('verifying'), 700); window.setTimeout(() => { setScanState('verified'); addNotification('identity'); addNotification('allergy'); window.setTimeout(() => setView('record'), 900); }, 1500); };
-  const searchPatient = () => { if (nationalId.trim().length < 4) { setIdError(true); return; } setIdError(false); setScanState('verified'); addNotification('identity'); window.setTimeout(() => setView('record'), 500); };
-  const shared = { lang, setLang, t, notifications, notificationOpen, onNotifications: () => setNotificationOpen((value) => !value), onHome: reset };
+  const reset = () => { setView('role'); setRole(null); setScanState('idle'); setNationalId(''); setIdError(false); setSelectedHospital(demoHospitals[0].id); setNotifications([]); setChecklist([false, false, false, false, false, false]); setNotificationOpen(false); setStage(0); };
+  const choose = (nextRole: Role) => { setRole(nextRole); setView('login'); setNotificationOpen(false); };
+  const enterDemo = () => { setView(role === 'hospital' ? 'hospital-dashboard' : 'paramedic-dashboard'); };
+  const backToRoles = () => { setRole(null); setView('role'); setNotificationOpen(false); };
+  const scan = () => { setScanState('scanning'); window.setTimeout(() => setScanState('verifying'), 700); window.setTimeout(() => { setScanState('verified'); setStage((current) => Math.max(current, 1)); addNotification('identity'); addNotification('allergy'); window.setTimeout(() => setView('record'), 900); }, 1500); };
+  const searchPatient = () => { if (nationalId.trim().length < 4) { setIdError(true); return; } setIdError(false); setScanState('verified'); setStage((current) => Math.max(current, 1)); addNotification('identity'); window.setTimeout(() => setView('record'), 500); };
+  const shared = { lang, setLang, t, notifications, notificationOpen, onNotifications: () => setNotificationOpen((value) => !value), onSwitchRole: backToRoles, onHome: () => setView(role === 'hospital' ? 'hospital-dashboard' : 'paramedic-dashboard') };
+  const openView = (nextView: View) => setView(nextView);
   if (view === 'role' || !role) return <RoleSelection lang={lang} setLang={setLang} t={t} choose={choose} />;
   if (view === 'login') return <div className="min-h-[100dvh] bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
     <header className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-5 md:px-10">
-      <button type="button" onClick={reset} aria-label={t.app.backHome}><Logo /></button>
+      <button type="button" onClick={backToRoles} aria-label={t.login.back}><Logo /></button>
       <div className="flex items-center gap-2"><ThemeToggle t={t} /><LanguageSwitch lang={lang} setLang={setLang} t={t} /></div>
     </header>
-    <DemoLogin key={role} role={role} t={t} onEnter={enterDemo} onBack={reset} />
+    <DemoLogin key={role} role={role} t={t} onEnter={enterDemo} onBack={backToRoles} />
   </div>;
+  if (view === 'paramedic-dashboard') return <Shell {...shared} role="paramedic" showNotice={false}><ParamedicOperations lang={lang} t={t} stage={stage} selectedHospital={selectedHospital} onStart={() => openView('identify')} onContinue={() => stage >= 4 ? setView('transport') : openView(stage === 0 ? 'identify' : stage === 1 ? 'record' : stage === 2 ? 'hospitals' : 'share')} onRecord={() => openView('record')} onTracker={() => setView('transport')} onReset={() => { reset(); setRole('paramedic'); setView('paramedic-dashboard'); }} /></Shell>;
+  if (view === 'hospital-dashboard') return <Shell {...shared} role="hospital" showNotice={false}><HospitalOperations lang={lang} t={t} stage={stage} selectedHospital={selectedHospital} onOpen={() => setView('hospital')} /></Shell>;
+  if (view === 'transport') return <Shell {...shared} role="paramedic"><main className="mx-auto max-w-5xl space-y-5 px-5 py-8 md:px-9"><button data-testid="button-back-paramedic-dashboard" type="button" onClick={() => setView('paramedic-dashboard')} className="flex items-center gap-2 text-sm font-bold text-[hsl(var(--primary))]"><ArrowRight size={15} className="rotate-180 rtl:rotate-0" />{t.ops.backDashboard}</button><TransportTracker lang={lang} t={t} stage={stage} selectedHospital={selectedHospital} onArrival={() => setStage(5)} /></main></Shell>;
   if (view === 'identify') return <Identification {...shared} state={scanState} nationalId={nationalId} setNationalId={setNationalId} onScan={scan} onSearch={searchPatient} error={idError} />;
-  if (view === 'record') return <PatientRecord {...shared} onSend={() => setView('hospitals')} />;
-  if (view === 'hospitals') return <HospitalSelection {...shared} selected={selectedHospital} setSelected={setSelectedHospital} onContinue={() => setView('share')} />;
-  if (view === 'share') return <ShareReview {...shared} selected={selectedHospital} onSend={() => { addNotification('ai'); addNotification('sent'); setView('sent'); }} />;
-  if (view === 'sent') return <Sent {...shared} reset={reset} openHospital={() => choose('hospital')} />;
-  return <HospitalDashboard {...shared} checklist={checklist} toggleChecklist={(index) => setChecklist((current) => current.map((value, itemIndex) => itemIndex === index ? !value : value))} />;
+  if (view === 'record') return <PatientRecord {...shared} onSend={() => { setStage((current) => Math.max(current, 2)); openView('hospitals'); }} />;
+  if (view === 'hospitals') return <HospitalSelection {...shared} selected={selectedHospital} setSelected={setSelectedHospital} onContinue={() => { setStage((current) => Math.max(current, 3)); openView('share'); }} />;
+  if (view === 'share') return <ShareReview {...shared} selected={selectedHospital} onSend={() => { setStage((current) => Math.max(current, 4)); addNotification('sent'); openView('sent'); }} />;
+  if (view === 'sent') return <Sent {...shared} reset={() => { reset(); setRole('paramedic'); setView('paramedic-dashboard'); }} openTracker={() => setView('transport')} openHospital={() => choose('hospital')} />;
+  return <Shell {...shared} role="hospital"><HospitalCaseDetail lang={lang} t={t} stage={stage} selectedHospital={selectedHospital} checklist={checklist} onToggle={(index) => setChecklist((current) => current.map((value, itemIndex) => itemIndex === index ? !value : value))} onBack={() => setView('hospital-dashboard')} /></Shell>;
 }
