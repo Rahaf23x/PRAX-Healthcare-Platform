@@ -338,6 +338,144 @@
   }
 }
 
+/* The same clinical reading system is used at both ends of the handoff. */
+.vital-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+.vital-tile {
+  position: relative;
+  min-width: 0;
+  min-height: 142px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid hsl(201 32% 83%);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: hsl(202 48% 97%);
+  box-shadow: 0 2px 5px hsl(211 49% 18% / .025);
+}
+
+.vital-tile:nth-child(3n + 2) { background: hsl(207 46% 96%); }
+.vital-tile:nth-child(3n) { background: hsl(196 40% 96%); }
+
+.vital-tile--reading {
+  border-top: 3px solid var(--tile-accent);
+  background: var(--tile-surface) !important;
+}
+.vital-tile--heart-rate { --tile-accent: #a23d63; --tile-surface: #fff2f6; }
+.vital-tile--blood-pressure { --tile-accent: #6255a4; --tile-surface: #f3f1ff; }
+.vital-tile--oxygen { --tile-accent: #087b94; --tile-surface: #edfbfc; }
+.vital-tile--respiratory { --tile-accent: #315fb1; --tile-surface: #f0f6ff; }
+.vital-tile--temperature { --tile-accent: #8a630e; --tile-surface: #fff9e9; }
+.vital-tile--reading .vital-tile__icon {
+  background: color-mix(in srgb, var(--tile-accent) 13%, white);
+  color: var(--tile-accent);
+}
+.vital-tile--reading .vital-tile__value { color: var(--tile-accent); }
+
+.vital-tile__icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: .65rem;
+  background: hsl(203 78% 45% / .1);
+  color: hsl(203 78% 37%);
+}
+
+.vital-tile__label {
+  display: block;
+  margin-top: .85rem;
+  color: hsl(210 19% 39%);
+  font-size: .7rem;
+  line-height: 1.35;
+  font-weight: 750;
+}
+
+.vital-tile__value {
+  display: block;
+  margin-top: .25rem;
+  color: hsl(211 49% 18%);
+  font-family: var(--app-font-sans);
+  font-size: clamp(1.1rem, 1.7vw, 1.55rem);
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -.035em;
+  overflow-wrap: anywhere;
+}
+
+.vital-tile__unit {
+  margin-inline-start: .18rem;
+  color: hsl(210 19% 42%);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.vital-tile--critical {
+  grid-column: 1 / -1;
+  min-height: 112px;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  border-color: hsl(4 76% 56% / .5);
+  border-inline-start: 5px solid hsl(var(--destructive));
+  background: hsl(4 76% 97%) !important;
+  box-shadow: 0 8px 22px hsl(4 76% 56% / .07);
+}
+
+.vital-tile--critical .vital-tile__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  background: hsl(4 76% 56% / .12);
+  color: hsl(4 72% 42%);
+}
+
+.vital-tile--critical .vital-tile__label {
+  margin-top: 0;
+  color: hsl(4 60% 34%);
+}
+
+.vital-tile--critical .vital-tile__value {
+  color: hsl(4 72% 38%);
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+}
+
+.vital-tile__flag {
+  flex: none;
+  align-self: flex-start;
+  border-radius: 100px;
+  padding: .35rem .6rem;
+  background: hsl(4 76% 56% / .13);
+  color: hsl(4 72% 37%);
+  font-size: .65rem;
+  font-weight: 800;
+}
+
+@media (min-width: 640px) {
+  .vital-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 380px) {
+  .vital-tile { padding: .8rem; }
+  .vital-tile--critical { gap: .6rem; }
+}
+
+.dark .vital-tile { background: hsl(211 34% 23%); border-color: hsl(211 34% 35%); }
+.dark .vital-tile:nth-child(3n + 2), .dark .vital-tile:nth-child(3n) { background: hsl(211 34% 24%); }
+.dark .vital-tile--reading { background: hsl(211 34% 23%) !important; }
+.dark .vital-tile--reading .vital-tile__value { color: hsl(204 45% 98%); }
+.dark .vital-tile__label, .dark .vital-tile__unit { color: hsl(203 24% 75%); }
+.dark .vital-tile__value { color: hsl(204 45% 98%); }
+.dark .vital-tile--critical { background: hsl(4 39% 22%) !important; }
+.dark .vital-tile--critical .vital-tile__label, .dark .vital-tile--critical .vital-tile__value, .dark .vital-tile__flag { color: hsl(4 85% 80%); }
+
 /**
  * Using the elevate system.
  * Automatic contrast adjustment.

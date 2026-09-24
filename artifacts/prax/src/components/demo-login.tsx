@@ -12,8 +12,8 @@ export function DemoLogin({ role, t, onEnter, onBack }: {
   onEnter: () => void;
   onBack: () => void;
 }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState(DEMO_USERNAME);
+  const [password, setPassword] = useState(DEMO_PASSWORD);
   const [showPassword, setShowPassword] = useState(false);
   const [forgotOpen, setForgotOpen] = useState(false);
   const [error, setError] = useState<'required' | 'incorrect' | null>(null);
@@ -72,7 +72,7 @@ export function DemoLogin({ role, t, onEnter, onBack }: {
               <button type="button" aria-label={showPassword ? t.login.hidePassword : t.login.showPassword} aria-pressed={showPassword} onClick={() => setShowPassword((current) => !current)} className="absolute end-3 top-3 rounded-lg p-1 text-[hsl(var(--muted-foreground))]">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button>
             </div>
           </div>
-          <div className="flex justify-end"><button type="button" data-testid="button-forgot-password" onClick={() => { setPassword(''); setForgotOpen(true); }} className="text-sm font-bold text-[hsl(var(--primary))] hover:underline">{t.login.forgot}</button></div>
+          <div className="flex justify-end"><button type="button" data-testid="button-forgot-password" onClick={() => setForgotOpen(true)} className="text-sm font-bold text-[hsl(var(--primary))] hover:underline">{t.login.forgot}</button></div>
           {error && <p role="alert" className="text-xs font-bold text-[hsl(var(--destructive))]">{error === 'required' ? t.login.required : t.login.incorrect}</p>}
           <button type="submit" data-testid="button-demo-sign-in" className="flex w-full items-center justify-center gap-2 rounded-xl bg-[hsl(var(--primary))] px-5 py-3.5 text-sm font-extrabold text-white">{t.login.signIn}<ArrowRight size={17} className="rtl:rotate-180" /></button>
         </form>

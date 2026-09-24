@@ -14,3 +14,9 @@ The user chose demonstration-only role sign-in rather than real accounts. Treat 
 **Why:** Real sign-in and password reset would introduce account provisioning, role enforcement, and sensitive medical-data access concerns beyond this prototype.
 
 **How to apply:** If a later request relies on these screens for actual access control or account recovery, first scope real authentication and role assignment instead of extending the demo fields as if they were secure.
+
+Real ambulance GPS sharing requires verified staff roles and access limited to the receiving case; a fixed demo login must never authorize location disclosure.
+
+**Why:** A live location is sensitive, and self-selected roles or shared demonstration credentials cannot identify authorized hospital staff.
+
+**How to apply:** Before enabling location upload or hospital viewing, establish trusted role enrollment, case-specific permissions, destination coordinates, consent, and a stop-sharing path. Otherwise explicitly show that live GPS is disconnected.
