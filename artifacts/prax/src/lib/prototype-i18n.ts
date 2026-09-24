@@ -94,7 +94,7 @@ export const prototypeCopy = {
       retrieved: 'Secure medical record retrieved.',
     },
     record: {
-      title: 'Emergency patient profile',
+      title: 'Medical record',
       subtitle: 'The critical information your team needs before treatment.',
       step: 'Step 2 of 4',
       patientProfile: 'Medical record',
@@ -333,7 +333,7 @@ export const prototypeCopy = {
       retrieved: 'تم استرجاع السجل الطبي الآمن.',
     },
     record: {
-      title: 'ملف المريض للطوارئ',
+      title: 'السجل الطبي',
       subtitle: 'المعلومات الحرجة التي يحتاجها فريقك قبل العلاج.',
       step: 'الخطوة 2 من 4',
       patientProfile: 'الملف الطبي',

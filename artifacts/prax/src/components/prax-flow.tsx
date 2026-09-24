@@ -3,7 +3,7 @@ import {
   AlertTriangle, Ambulance, ArrowRight, Bell, BrainCircuit, Check, CheckCircle2,
   ChevronRight, ClipboardCheck, Clock3, FileText, Fingerprint, HeartPulse,
   Hospital, Info, LockKeyhole, MapPin, Pill, Radio, Search, Send, ShieldCheck,
-  Siren, UserRound, X, Zap, type LucideIcon,
+  UserRound, X, Zap, type LucideIcon,
 } from 'lucide-react';
 import {
   demoHospitals, demoPatient, localize, prototypeCopy, type Lang, type PrototypeCopy,
@@ -77,23 +77,8 @@ function Shell({ children, role, lang, setLang, t, notifications, onHome, onNoti
 function Progress({ view, t }: { view: View; t: Copy }) {
   const steps = [{ id: 'identify', label: t.nav.identification }, { id: 'record', label: t.nav.record }, { id: 'hospitals', label: t.nav.hospitals }, { id: 'share', label: t.nav.review }];
   const current = steps.findIndex((step) => step.id === view);
-  const progressLang: Lang = String(t.record.title) === String(prototypeCopy.ar.record.title) ? 'ar' : 'en';
   return <div className="mb-7">
     <div className="flex items-center gap-2 overflow-x-auto pb-1">{steps.map((step, index) => <div key={step.id} className="flex min-w-max items-center gap-2"><span className={`grid size-7 place-items-center rounded-full text-[11px] font-extrabold ${index <= current ? 'bg-[hsl(var(--primary))] text-white shadow-[0_4px_12px_hsl(var(--primary)/.2)]' : 'bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]'}`}>{index < current ? <Check size={14} /> : index + 1}</span><span className={`text-xs font-bold ${index <= current ? '' : 'text-[hsl(var(--muted-foreground))]'}`}>{step.label}</span>{index < steps.length - 1 && <ChevronRight size={14} className="text-[hsl(var(--muted-foreground))] rtl:rotate-180" />}</div>)}</div>
-    {view === 'record' && <div className="mt-5 overflow-hidden rounded-2xl border border-[hsl(var(--destructive)/.22)] bg-[hsl(var(--card))] shadow-[0_12px_34px_hsl(211_49%_18%/.055)]">
-      <div className="flex flex-col justify-between gap-3 border-b border-[hsl(var(--destructive)/.14)] bg-[hsl(var(--destructive)/.055)] px-5 py-4 sm:flex-row sm:items-center">
-        <div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-[hsl(var(--destructive)/.12)] text-[hsl(var(--destructive))]"><Siren size={19} /></span><div><div className="text-[10px] font-extrabold uppercase tracking-[.14em] text-[hsl(var(--destructive))]">{t.hospital.emergencyStatus}</div><div className="mt-0.5 text-base font-extrabold">{t.common.critical}</div></div></div>
-        <div className="flex items-center gap-2 text-xs font-bold text-[hsl(var(--muted-foreground))]"><ShieldCheck size={15} className="text-[hsl(var(--primary))]" />{t.common.verified}</div>
-      </div>
-      <div className="grid divide-y divide-[hsl(var(--border))] sm:grid-cols-4 sm:divide-x sm:divide-y-0 rtl:sm:divide-x-reverse">
-        {[
-          [t.record.allergies, localize(demoPatient.allergies, progressLang), 'critical'],
-          [t.record.consciousness, localize(demoPatient.vitals.consciousness, progressLang), 'critical'],
-          [t.record.bloodType, demoPatient.bloodType, 'normal'],
-          [t.record.update, localize(demoPatient.lastUpdate, progressLang), 'normal'],
-        ].map(([label, value, status]) => <div key={label} className="px-5 py-3.5"><div className="text-[10px] font-bold uppercase tracking-wider text-[hsl(var(--muted-foreground))]">{label}</div><div className={`mt-1 text-sm font-extrabold ${status === 'critical' ? 'text-[hsl(var(--destructive))]' : ''}`}>{value}</div></div>)}
-      </div>
-    </div>}
   </div>;
 }
 
@@ -142,7 +127,7 @@ function PatientRecord({ lang, setLang, t, onSend, onHome, notifications, notifi
     <main className="mx-auto max-w-[1480px] px-4 py-7 sm:px-5 md:px-9 md:py-10">
       <Progress view="record" t={t} />
       <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-        <div><div className="text-[10px] font-extrabold uppercase tracking-[.18em] text-[hsl(var(--primary))]">{t.nav.record}</div><h1 className="mt-2 text-3xl font-extrabold">{t.record.title}</h1><p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">{t.record.subtitle}</p></div>
+        <div><h1 className="text-3xl font-extrabold">{t.record.title}</h1><p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">{t.record.subtitle}</p></div>
         <Badge><ShieldCheck size={13} />{t.common.verified}</Badge>
       </div>
       <div className="space-y-5">
