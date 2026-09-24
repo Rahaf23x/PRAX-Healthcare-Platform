@@ -8,9 +8,10 @@ import {
 import {
   demoHospitals, demoPatient, localize, prototypeCopy, type Lang, type PrototypeCopy,
 } from '@/lib/prototype-i18n';
+import { DemoLogin } from '@/components/demo-login';
 
 type Role = 'paramedic' | 'hospital';
-type View = 'role' | 'identify' | 'record' | 'hospitals' | 'share' | 'sent' | 'hospital';
+type View = 'role' | 'login' | 'identify' | 'record' | 'hospitals' | 'share' | 'sent' | 'hospital';
 type ScanState = 'idle' | 'scanning' | 'verifying' | 'verified';
 type NotificationKey = keyof typeof prototypeCopy.en.notifications;
 type Copy = PrototypeCopy;
@@ -203,15 +204,30 @@ export function PraxFlow() {
 
   const addNotification = (key: NotificationKey) => setNotifications((current) => current.includes(key) ? current : [key, ...current]);
   const reset = () => { setView('role'); setRole(null); setScanState('idle'); setNationalId(''); setIdError(false); setNotifications([]); setChecklist([true, true, true, true, true, false]); setNotificationOpen(false); };
-  const choose = (nextRole: Role) => { setRole(nextRole); setView(nextRole === 'hospital' ? 'hospital' : 'identify'); if (nextRole === 'hospital') setNotifications(['received', 'record', 'eta', 'team']); };
+  const choose = (nextRole: Role) => { setRole(nextRole); setView('login'); };
+  const enterDemo = () => {
+    if (role === 'hospital') {
+      setNotifications(['received', 'record', 'eta', 'team']);
+      setView('hospital');
+    } else {
+      setView('identify');
+    }
+  };
   const scan = () => { setScanState('scanning'); window.setTimeout(() => setScanState('verifying'), 700); window.setTimeout(() => { setScanState('verified'); addNotification('identity'); addNotification('allergy'); window.setTimeout(() => setView('record'), 900); }, 1500); };
   const searchPatient = () => { if (nationalId.trim().length < 4) { setIdError(true); return; } setIdError(false); setScanState('verified'); addNotification('identity'); window.setTimeout(() => setView('record'), 500); };
   const shared = { lang, setLang, t, notifications, notificationOpen, onNotifications: () => setNotificationOpen((value) => !value), onHome: reset };
   if (view === 'role' || !role) return <RoleSelection lang={lang} setLang={setLang} t={t} choose={choose} />;
+  if (view === 'login') return <div className="min-h-[100dvh] bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
+    <header className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-5 md:px-10">
+      <button type="button" onClick={reset} aria-label={t.app.backHome}><Logo /></button>
+      <LanguageSwitch lang={lang} setLang={setLang} t={t} />
+    </header>
+    <DemoLogin key={role} role={role} t={t} onEnter={enterDemo} onBack={reset} />
+  </div>;
   if (view === 'identify') return <Identification {...shared} state={scanState} nationalId={nationalId} setNationalId={setNationalId} onScan={scan} onSearch={searchPatient} error={idError} />;
   if (view === 'record') return <PatientRecord {...shared} onSend={() => setView('hospitals')} />;
   if (view === 'hospitals') return <HospitalSelection {...shared} selected={selectedHospital} setSelected={setSelectedHospital} onContinue={() => setView('share')} />;
   if (view === 'share') return <ShareReview {...shared} selected={selectedHospital} onSend={() => { addNotification('ai'); addNotification('sent'); setView('sent'); }} />;
-  if (view === 'sent') return <Sent {...shared} reset={reset} openHospital={() => { setRole('hospital'); setView('hospital'); setNotifications(['received', 'record', 'eta', 'team']); }} />;
+  if (view === 'sent') return <Sent {...shared} reset={reset} openHospital={() => choose('hospital')} />;
   return <HospitalDashboard {...shared} checklist={checklist} toggleChecklist={(index) => setChecklist((current) => current.map((value, itemIndex) => itemIndex === index ? !value : value))} />;
 }
