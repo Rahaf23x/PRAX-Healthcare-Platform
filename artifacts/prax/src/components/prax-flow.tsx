@@ -57,7 +57,37 @@ function Progress({ view, t }: { view: View; t: Copy }) {
 }
 
 function RoleSelection({ lang, setLang, t, choose }: { lang: Lang; setLang: (value: Lang) => void; t: Copy; choose: (role: Role) => void }) {
-  return <div className="min-h-[100dvh] bg-[hsl(var(--background))]"><header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 md:px-10"><Logo /><LanguageSwitch lang={lang} setLang={setLang} t={t} /></header><main className="mx-auto max-w-6xl px-6 pb-14 pt-16 md:px-10 md:pt-24"><Badge><ShieldCheck size={13} />{t.common.secure}</Badge><h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-tight tracking-[-.05em] md:text-6xl">{t.app.subtitle}</h1><p className="mt-5 max-w-2xl text-base text-[hsl(var(--muted-foreground))]">{t.app.shortSubtitle}</p><div className="mt-14"><div className="text-lg font-extrabold">{t.role.title}</div><div className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">{t.role.subtitle}</div><div className="mt-5 grid gap-4 md:grid-cols-2">{([{ id: 'paramedic' as const, icon: Ambulance, title: t.app.paramedic, description: t.role.paramedicDescription }, { id: 'hospital' as const, icon: Hospital, title: t.app.hospital, description: t.role.hospitalDescription }]).map(({ id, icon: Icon, title, description }) => <button type="button" key={id} data-testid={`button-role-${id}`} onClick={() => choose(id)} className="group min-h-[230px] rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-6 text-start transition hover:-translate-y-1 hover:border-[hsl(var(--primary))] hover:shadow-[0_18px_42px_hsl(var(--primary)/.12)]"><div className="flex justify-between"><div className="grid size-12 place-items-center rounded-xl bg-[hsl(var(--primary)/.12)] text-[hsl(var(--primary))]"><Icon size={23} /></div><ArrowRight size={19} className="text-[hsl(var(--muted-foreground))] rtl:rotate-180" /></div><div className="mt-12 text-xl font-extrabold">{title}</div><p className="mt-2 max-w-md text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">{description}</p><div className="mt-6 text-xs font-extrabold text-[hsl(var(--primary))]">{t.role.continue} <ChevronRight className="inline rtl:rotate-180" size={14} /></div></button>)}</div></div><div className="mt-8 flex gap-2 border-t border-[hsl(var(--border))] pt-5 text-xs text-[hsl(var(--muted-foreground))]"><Info size={15} className="mt-0.5 shrink-0 text-[hsl(var(--primary))]" />{t.app.fictional}</div></main></div>;
+  const roles = [
+    { id: 'paramedic' as const, icon: Ambulance, title: t.app.paramedic, description: t.role.paramedicDescription, number: '01' },
+    { id: 'hospital' as const, icon: Hospital, title: t.app.hospital, description: t.role.hospitalDescription, number: '02' },
+  ];
+  return <div className="min-h-[100dvh] bg-[hsl(var(--background))]">
+    <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 md:px-10"><Logo /><LanguageSwitch lang={lang} setLang={setLang} t={t} /></header>
+    <main className="mx-auto max-w-6xl px-6 pb-14 pt-5 md:px-10 md:pt-8">
+      <section className="relative isolate overflow-hidden rounded-[28px] bg-[hsl(var(--sidebar))] px-6 py-9 text-[hsl(var(--sidebar-foreground))] shadow-[0_24px_60px_hsl(211_49%_18%/.14)] md:px-11 md:py-12">
+        <div aria-hidden="true" className="absolute -end-16 -top-28 -z-10 size-80 rounded-full bg-[hsl(var(--primary)/.18)] blur-3xl" />
+        <div aria-hidden="true" className="absolute -bottom-40 start-1/3 -z-10 size-72 rounded-full bg-[hsl(203_78%_45%/.12)] blur-3xl" />
+        <Badge><ShieldCheck size={13} />{t.common.secure}</Badge>
+        <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.08] tracking-[-.045em] text-white md:text-6xl">{t.app.subtitle}</h1>
+        <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[hsl(var(--sidebar-foreground)/.76)] md:text-base">{t.app.shortSubtitle}</p>
+        <div className="mt-8 flex flex-wrap gap-2 text-[11px] font-bold">
+          <span className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[.06] px-3 py-2"><Fingerprint size={14} className="text-[hsl(var(--primary))]" />{t.nav.identification}</span>
+          <span className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[.06] px-3 py-2"><HeartPulse size={14} className="text-[hsl(var(--primary))]" />{t.nav.record}</span>
+          <span className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[.06] px-3 py-2"><Radio size={14} className="text-[hsl(var(--primary))]" />{t.nav.incoming}</span>
+        </div>
+      </section>
+      <section className="mt-10 md:mt-12">
+        <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end"><div><div className="text-[10px] font-extrabold uppercase tracking-[.16em] text-[hsl(var(--primary))]">{t.common.secure}</div><h2 className="mt-2 text-2xl font-extrabold tracking-tight">{t.role.title}</h2></div><p className="text-sm text-[hsl(var(--muted-foreground))]">{t.role.subtitle}</p></div>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">{roles.map(({ id, icon: Icon, title, description, number }) => <button type="button" key={id} data-testid={`button-role-${id}`} onClick={() => choose(id)} className="group min-h-[218px] rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-6 text-start shadow-[0_8px_28px_hsl(211_49%_18%/.035)] transition duration-200 hover:-translate-y-0.5 hover:border-[hsl(var(--primary)/.55)] hover:shadow-[0_18px_42px_hsl(var(--primary)/.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2">
+          <div className="flex items-start justify-between"><div className="grid size-12 place-items-center rounded-xl bg-[hsl(var(--primary)/.1)] text-[hsl(var(--primary))] transition group-hover:bg-[hsl(var(--primary))] group-hover:text-white"><Icon size={22} /></div><span className="font-mono text-xs font-bold tracking-wider text-[hsl(var(--muted-foreground)/.65)]">{number}</span></div>
+          <div className="mt-9 flex items-center justify-between gap-3"><div className="text-xl font-extrabold">{title}</div><ArrowRight size={18} className="text-[hsl(var(--muted-foreground))] transition group-hover:translate-x-1 group-hover:text-[hsl(var(--primary))] rtl:rotate-180 rtl:group-hover:-translate-x-1" /></div>
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">{description}</p>
+          <div className="mt-5 text-xs font-extrabold text-[hsl(var(--primary))]">{t.role.continue} <ChevronRight className="inline rtl:rotate-180" size={14} /></div>
+        </button>)}</div>
+      </section>
+      <div className="mt-8 flex items-start gap-2 border-t border-[hsl(var(--border))] pt-5 text-xs leading-relaxed text-[hsl(var(--muted-foreground))]"><Info size={15} className="mt-0.5 shrink-0 text-[hsl(var(--primary))]" />{t.app.fictional}</div>
+    </main>
+  </div>;
 }
 
 function Identification({ lang, setLang, t, state, nationalId, setNationalId, onScan, onSearch, error, onHome, notifications, notificationOpen, onNotifications }: { lang: Lang; setLang: (value: Lang) => void; t: Copy; state: ScanState; nationalId: string; setNationalId: (value: string) => void; onScan: () => void; onSearch: () => void; error: boolean; onHome: () => void; notifications: NotificationKey[]; notificationOpen: boolean; onNotifications: () => void }) {
