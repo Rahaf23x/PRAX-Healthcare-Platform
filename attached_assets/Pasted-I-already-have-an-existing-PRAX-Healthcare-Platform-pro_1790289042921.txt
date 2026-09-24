@@ -1,0 +1,295 @@
+I already have an existing PRAX Healthcare Platform project in this Replit workspace. Do NOT rebuild the project from scratch and do NOT remove or break any existing functionality.
+
+Your task is to transform the current PRAX prototype into a polished, professional, realistic healthcare emergency platform suitable for a graduation project, professional portfolio, and future development.
+
+IMPORTANT:
+1. First inspect the entire existing project, including:
+- Frontend
+- Backend
+- Database
+- Routes
+- Components
+- Authentication
+- Existing UI
+- Existing functionality
+- Current errors
+- Responsive behavior
+
+2. Before making major changes, understand the current architecture and preserve useful existing work.
+
+3. Improve the existing project incrementally rather than replacing it unnecessarily.
+
+PROJECT NAME:
+PRAX – Emergency Healthcare Identification Platform
+
+CORE PURPOSE:
+PRAX helps emergency medical responders quickly identify a patient and access critical emergency information so they can make informed decisions during the first moments of an emergency.
+
+USER TYPES:
+1. Paramedic
+2. Hospital
+
+MAIN FLOW:
+
+LANDING PAGE:
+Create a clean professional landing page with:
+- PRAX logo
+- Short explanation of the platform
+- Two clear options:
+  • Paramedic
+  • Hospital
+- Arabic / English language switch
+- Professional healthcare visual identity
+- Responsive design for mobile, tablet, and desktop
+
+PARAMEDIC FLOW:
+When the user selects Paramedic:
+
+1. Patient Identification
+Provide two methods:
+
+PRIMARY:
+- Fingerprint identification interface
+- Clear fingerprint scanning animation/state
+- Simulate successful fingerprint recognition for the prototype
+
+FALLBACK:
+- National ID input
+- Button to search for the patient
+
+2. After successful identification:
+Display the patient's emergency profile.
+
+Patient profile should clearly include:
+- Full name
+- National ID
+- Age
+- Date of birth
+- Blood type
+- Emergency contact
+- Phone number
+- Known medical conditions
+- Allergies
+- Current medications
+- Previous important medical history
+- Other critical emergency notes
+
+IMPORTANT:
+Critical information such as:
+- Allergies
+- Blood type
+- Serious medical conditions
+- Current medications
+
+must be visually prominent and easy to identify within seconds.
+
+3. Patient Emergency Status:
+Create a clear visual status section:
+- Stable
+- Needs Attention
+- Critical
+
+Use professional healthcare UI patterns and avoid excessive colors.
+
+4. Emergency Actions:
+Provide relevant actions such as:
+- Call emergency contact
+- View full medical history
+- Send patient information to hospital
+- Select destination hospital
+- Confirm transfer
+
+HOSPITAL FLOW:
+When Hospital is selected:
+
+1. Hospital login/authentication interface.
+
+2. Hospital dashboard showing incoming emergency cases.
+
+3. Display:
+- Patient name
+- Patient status
+- Arrival status
+- Emergency severity
+- Estimated arrival
+- Assigned hospital
+
+4. Hospital staff should be able to open a patient case and view the critical medical information sent by the paramedic.
+
+5. Hospital Destination:
+Create a hospital selection interface showing nearby hospitals with:
+- Hospital name
+- Distance
+- Emergency department availability
+- Capacity/availability status
+- Estimated arrival time
+
+Allow the paramedic to select a destination hospital.
+
+DATABASE:
+If the project already has a database, preserve it and improve the schema only where necessary.
+
+Create realistic prototype data for:
+- Patients
+- Medical conditions
+- Allergies
+- Medications
+- Emergency contacts
+- Hospitals
+- Hospital availability
+- Emergency cases
+- Paramedics
+- Hospital staff
+
+Use relational structure where appropriate.
+
+SECURITY:
+Because PRAX handles sensitive healthcare information, implement the prototype with appropriate security practices:
+- Authentication
+- Protected routes
+- Input validation
+- Password hashing if authentication exists
+- Avoid exposing sensitive information unnecessarily
+- Do not hard-code real personal information
+- Use fictional/demo patient data only
+
+IMPORTANT:
+This is a prototype and must clearly use fictional/demo healthcare data. Do not connect to real medical records or government identity systems.
+
+UI/UX:
+Make the interface look like a real modern healthcare platform, not a generic AI-generated website.
+
+Design direction:
+- Clean
+- Professional
+- Minimal
+- Trustworthy
+- Healthcare-oriented
+- Modern
+- Accessible
+- Excellent spacing and typography
+- Consistent components
+- Clear hierarchy
+- Responsive design
+
+Use a professional blue/white healthcare palette with subtle supporting colors for statuses.
+
+Avoid:
+- Excessive gradients
+- Excessive animations
+- Huge text
+- Unnecessary cards everywhere
+- Generic stock illustrations
+- Cluttered dashboards
+- Fake AI features
+- Unnecessary decorative elements
+
+RESPONSIVE DESIGN:
+The platform must work properly on:
+- iPhone
+- iPad
+- Android phones
+- Tablets
+- Desktop
+
+Ensure:
+- No horizontal scrolling
+- Buttons remain accessible
+- Tables become responsive
+- Navigation works on small screens
+- Patient information remains readable
+
+LANGUAGE:
+Implement Arabic and English support.
+
+Arabic should use proper RTL layout.
+English should use LTR layout.
+
+The language switch should update the interface consistently, including:
+- Navigation
+- Buttons
+- Forms
+- Patient information labels
+- Alerts
+- Dashboard
+- Authentication pages
+
+ERROR HANDLING:
+Check the entire application for:
+- Broken buttons
+- Broken routes
+- Console errors
+- API errors
+- Database errors
+- Empty states
+- Invalid form submissions
+- Loading states
+- Missing data
+
+Add professional:
+- Loading indicators
+- Empty states
+- Error messages
+- Success messages
+- Confirmation dialogs where appropriate
+
+DEMO EXPERIENCE:
+Create a smooth demonstration flow for PRAX.
+
+A user should be able to:
+1. Open PRAX
+2. Select Paramedic
+3. Identify a fictional patient using fingerprint simulation or National ID
+4. View the patient's critical medical information
+5. Select a hospital
+6. Send the emergency case
+7. Switch to Hospital
+8. View the incoming emergency case
+9. Open the patient's information
+
+Make this flow reliable for a live presentation.
+
+PERFORMANCE:
+Optimize the current project:
+- Remove unnecessary code
+- Avoid duplicated components
+- Optimize API calls
+- Avoid unnecessary re-renders
+- Keep the application fast
+
+CODE QUALITY:
+Use:
+- Clean component structure
+- Reusable components
+- Meaningful names
+- Clear folder organization
+- Environment variables for secrets
+- Proper error handling
+- Maintainable code
+
+DO NOT:
+- Delete existing working features without a reason
+- Replace the entire application unnecessarily
+- Add fake integrations and claim they are real
+- Claim fingerprint scanning is real biometric authentication
+- Claim connection to government databases
+- Use real patient information
+- Add features just for visual appearance if they do not support PRAX's purpose
+
+FINAL TASK:
+After implementing the improvements:
+
+1. Run the application.
+2. Test every major user flow.
+3. Fix all obvious errors.
+4. Check mobile/tablet/desktop responsiveness.
+5. Check Arabic RTL and English LTR.
+6. Check all navigation.
+7. Check the paramedic flow.
+8. Check the hospital flow.
+9. Check the demo patient data.
+10. Make sure the final application looks polished and presentation-ready.
+
+Do not stop after creating the UI. Make sure the application actually works end-to-end within the prototype environment.
+
+Before making major architectural changes, inspect the existing project and preserve what is already working.
