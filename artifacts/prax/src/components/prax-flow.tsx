@@ -2,8 +2,8 @@ import { useEffect, useState, type ReactNode } from 'react';
 import {
   AlertTriangle, Ambulance, ArrowRight, Bell, BrainCircuit, Check, CheckCircle2,
   ChevronRight, ClipboardCheck, Clock3, FileText, Fingerprint, HeartPulse,
-  Hospital, Info, LockKeyhole, MapPin, Pill, Radio, Search, Send, ShieldCheck,
-  UserRound, X, Zap, type LucideIcon,
+  Hospital, Info, LockKeyhole, MapPin, Moon, Pill, Radio, Search, Send, ShieldCheck,
+  Sun, UserRound, X, Zap, type LucideIcon,
 } from 'lucide-react';
 import {
   demoHospitals, demoPatient, localize, prototypeCopy, type Lang, type PrototypeCopy,
@@ -34,16 +34,26 @@ function Logo({ compact = false }: { compact?: boolean }) {
     alt="PRAX"
     width={972}
     height={240}
-    className={`block h-auto shrink-0 object-contain ${compact ? 'w-[100px] sm:w-[145px]' : 'w-[135px] sm:w-[170px]'}`}
+    className={`block h-auto shrink-0 object-contain dark:rounded-lg dark:bg-white dark:p-1 ${compact ? 'w-[84px] sm:w-[145px]' : 'w-[135px] sm:w-[170px]'}`}
   />;
 }
 
 function LanguageSwitch({ lang, setLang, t }: { lang: Lang; setLang: (value: Lang) => void; t: Copy }) {
-  return <div className="flex items-center gap-1 rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-1 text-xs shadow-sm" aria-label={t.app.language}><button type="button" data-testid="button-language-en" onClick={() => setLang('en')} className={`rounded-lg px-3 py-1.5 font-bold ${lang === 'en' ? 'bg-[hsl(var(--primary))] text-white' : 'text-[hsl(var(--muted-foreground))]'}`}>English</button><button type="button" data-testid="button-language-ar" onClick={() => setLang('ar')} className={`rounded-lg px-3 py-1.5 font-bold ${lang === 'ar' ? 'bg-[hsl(var(--primary))] text-white' : 'text-[hsl(var(--muted-foreground))]'}`}>العربية</button></div>;
+  return <div className="flex items-center gap-1 rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-1 text-xs shadow-sm" aria-label={t.app.language}><button type="button" data-testid="button-language-en" onClick={() => setLang('en')} className={`rounded-lg px-2 py-1.5 font-bold sm:px-3 ${lang === 'en' ? 'bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]' : 'text-[hsl(var(--muted-foreground))]'}`}>English</button><button type="button" data-testid="button-language-ar" onClick={() => setLang('ar')} className={`rounded-lg px-2 py-1.5 font-bold sm:px-3 ${lang === 'ar' ? 'bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]' : 'text-[hsl(var(--muted-foreground))]'}`}>العربية</button></div>;
+}
+
+function ThemeToggle({ t }: { t: Copy }) {
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark);
+    try { localStorage.setItem('prax-theme', dark ? 'dark' : 'light'); } catch { /* Private browsing may block storage. */ }
+  }, [dark]);
+  const label = dark ? t.app.lightMode : t.app.darkMode;
+  return <button type="button" data-testid="button-toggle-theme" aria-label={label} aria-pressed={dark} title={label} onClick={() => setDark((current) => !current)} className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] text-[hsl(var(--foreground))] transition hover:border-[hsl(var(--primary))] hover:text-[hsl(var(--primary))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] sm:size-10">{dark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}</button>;
 }
 
 function Badge({ children, tone = 'teal' }: { children: ReactNode; tone?: 'teal' | 'red' | 'amber' | 'blue' | 'slate' }) {
-  const color = { teal: 'bg-[hsl(var(--primary)/.12)] text-[hsl(var(--primary))]', red: 'bg-[hsl(var(--destructive)/.12)] text-[hsl(var(--destructive))]', amber: 'bg-[hsl(var(--accent)/.2)] text-[hsl(33_70%_31%)]', blue: 'bg-[hsl(203_78%_45%/.12)] text-[hsl(203_78%_38%)]', slate: 'bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]' };
+  const color = { teal: 'bg-[hsl(var(--primary)/.12)] text-[hsl(var(--primary))]', red: 'bg-[hsl(var(--destructive)/.12)] text-[hsl(var(--destructive))]', amber: 'bg-[hsl(var(--accent)/.2)] text-[hsl(33_70%_31%)] dark:text-[hsl(39_92%_77%)]', blue: 'bg-[hsl(203_78%_45%/.12)] text-[hsl(203_78%_38%)] dark:text-[hsl(203_78%_72%)]', slate: 'bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]' };
   return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold ${color[tone]}`}>{children}</span>;
 }
 
@@ -64,8 +74,9 @@ function Shell({ children, role, lang, setLang, t, notifications, onHome, onNoti
           <button type="button" onClick={onHome} aria-label={t.app.backHome} className="shrink-0"><Logo compact /></button>
         </div>
         <div className="hidden items-center gap-2 rounded-full bg-[hsl(var(--muted)/.7)] px-3 py-2 text-[11px] font-bold text-[hsl(var(--muted-foreground))] lg:flex">{role === 'paramedic' ? <Ambulance size={14} className="text-[hsl(var(--primary))]" /> : <Hospital size={14} className="text-[hsl(var(--primary))]" />}{role === 'paramedic' ? t.app.paramedic : t.app.hospital}</div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <button type="button" onClick={onNotifications} aria-label={t.notifications.title} className="relative rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2.5 text-[hsl(var(--muted-foreground))]"><Bell size={17} />{notifications.length > 0 && <span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-[hsl(var(--destructive))] text-[9px] text-white">{notifications.length}</span>}</button>
+          <ThemeToggle t={t} />
           <LanguageSwitch lang={lang} setLang={setLang} t={t} />
         </div>
         {notificationOpen && <div className="absolute end-3 top-full mt-1 w-[min(340px,calc(100vw-1.5rem))] rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-xl md:end-9"><div className="mb-3 flex items-center justify-between text-sm font-extrabold">{t.notifications.title}<button type="button" onClick={onNotifications} aria-label={t.common.close}><X size={16} /></button></div><div className="space-y-2">{notifications.length === 0 ? <p className="text-xs text-[hsl(var(--muted-foreground))]">{t.notifications.empty}</p> : notifications.map((item, index) => <div key={`${item}-${index}`} className="flex gap-2 rounded-xl bg-[hsl(var(--muted)/.7)] p-3 text-xs"><span className="mt-1 size-2 shrink-0 rounded-full bg-[hsl(var(--primary))]" />{t.notifications[item]}</div>)}</div></div>}
@@ -88,7 +99,7 @@ function RoleSelection({ lang, setLang, t, choose }: { lang: Lang; setLang: (val
     { id: 'hospital' as const, icon: Hospital, title: t.app.hospital, description: t.role.hospitalDescription, number: '02' },
   ];
   return <div className="min-h-[100dvh] bg-[hsl(var(--background))]">
-    <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 md:px-10"><Logo /><LanguageSwitch lang={lang} setLang={setLang} t={t} /></header>
+    <header className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-6 sm:px-6 md:px-10"><Logo /><div className="flex items-center gap-2"><ThemeToggle t={t} /><LanguageSwitch lang={lang} setLang={setLang} t={t} /></div></header>
     <main className="mx-auto max-w-6xl px-6 pb-14 pt-5 md:px-10 md:pt-8">
       <section className="relative isolate overflow-hidden rounded-[28px] bg-[hsl(var(--sidebar))] px-6 py-9 text-[hsl(var(--sidebar-foreground))] shadow-[0_24px_60px_hsl(211_49%_18%/.14)] md:px-11 md:py-12">
         <div aria-hidden="true" className="absolute -end-16 -top-28 -z-10 size-80 rounded-full bg-[hsl(var(--primary)/.18)] blur-3xl" />
@@ -248,7 +259,7 @@ export function PraxFlow() {
   if (view === 'login') return <div className="min-h-[100dvh] bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
     <header className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-5 md:px-10">
       <button type="button" onClick={reset} aria-label={t.app.backHome}><Logo /></button>
-      <LanguageSwitch lang={lang} setLang={setLang} t={t} />
+      <div className="flex items-center gap-2"><ThemeToggle t={t} /><LanguageSwitch lang={lang} setLang={setLang} t={t} /></div>
     </header>
     <DemoLogin key={role} role={role} t={t} onEnter={enterDemo} onBack={reset} />
   </div>;
