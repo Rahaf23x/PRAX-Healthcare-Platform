@@ -6,8 +6,8 @@
     "outDir": "dist",
     "rootDir": "src",
     "types": ["node"]
-    "noImplicitAny": false,
-    "skipLibCheck": true,
+    "noImpLicitAny": false,
+    "skipLibCheck": true
   },
   "include": ["src"],
   "references": [
