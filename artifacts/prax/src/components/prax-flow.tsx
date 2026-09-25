@@ -236,7 +236,7 @@ export function PraxFlow() {
   const addNotification = (key: NotificationKey) => setNotifications((current) => current.includes(key) ? current : [key, ...current]);
   const reset = () => { setView('role'); setRole(null); setScanState('idle'); setNationalId(''); setIdError(false); setSelectedHospital(demoHospitals[0].id); setNotifications([]); setChecklist([false, false, false, false, false, false]); setNotificationOpen(false); setStage(0); };
   const choose = (nextRole: Role) => { setRole(nextRole); setView('login'); setNotificationOpen(false); };
-  const enterDemo = () => { setView(role === 'hospital' ? 'hospital-dashboard' : 'paramedic-dashboard'); };
+  const enterDemo = () => { setView(role === 'hospital' ? 'hospital' : 'identify'); };
   const backToRoles = () => { setRole(null); setView('role'); setNotificationOpen(false); };
   const scan = () => { setScanState('scanning'); window.setTimeout(() => setScanState('verifying'), 700); window.setTimeout(() => { setScanState('verified'); setStage((current) => Math.max(current, 1)); addNotification('identity'); addNotification('allergy'); window.setTimeout(() => setView('record'), 900); }, 1500); };
   const searchPatient = () => { if (nationalId.trim().length < 4) { setIdError(true); return; } setIdError(false); setScanState('verified'); setStage((current) => Math.max(current, 1)); addNotification('identity'); window.setTimeout(() => setView('record'), 500); };
