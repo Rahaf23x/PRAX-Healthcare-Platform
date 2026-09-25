@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import {
   AlertTriangle, Ambulance, ArrowRight, Bell, BrainCircuit, Check, CheckCircle2,
-  ChevronRight, ClipboardCheck, Clock3, FileText, Fingerprint, HeartPulse,
+  ChevronRight, ClipboardCheck, Clock3, Fingerprint, HeartPulse,
   Hospital, Info, LockKeyhole, MapPin, Moon, Pill, Radio, Search, Send, ShieldCheck,
   Sun, UserRound, X, Zap, type LucideIcon,
 } from 'lucide-react';
@@ -10,6 +10,7 @@ import {
 } from '@/lib/prototype-i18n';
 import { DemoLogin } from '@/components/demo-login';
 import { VitalSigns } from '@/components/vital-signs';
+import { MedicalInformation, medicalCards } from '@/components/medical-information';
 import { DemoNotice, HospitalCaseDetail, HospitalOperations, ParamedicOperations, TransportTracker } from '@/components/operations';
 
 type Role = 'paramedic' | 'hospital';
@@ -69,7 +70,7 @@ function SectionTitle({ icon: Icon, title, action }: { icon: LucideIcon; title: 
 function Shell({ children, role, lang, setLang, t, notifications, onHome, onSwitchRole, onNotifications, notificationOpen, showNotice = true }: { children: ReactNode; role: Role; lang: Lang; setLang: (value: Lang) => void; t: Copy; notifications: NotificationKey[]; onHome: () => void; onSwitchRole?: () => void; onNotifications: () => void; notificationOpen: boolean; showNotice?: boolean }) {
   return <div className="min-h-[100dvh] bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
     <header className="sticky top-0 z-30 border-b border-[hsl(var(--border))] bg-[hsl(var(--background)/.94)] px-4 py-3 backdrop-blur-xl md:px-9"><div className="mx-auto flex max-w-[1480px] flex-wrap items-center justify-between gap-2">
-       <div className="flex items-center gap-2"><button data-testid="button-back-role-dashboard" type="button" onClick={onHome} aria-label={t.ops.openDashboard} className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-2.5 py-2 text-xs font-extrabold text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] sm:px-3"><ArrowRight size={15} className="rotate-180 rtl:rotate-0" /><span className="hidden sm:inline">{t.ops.openDashboard}</span></button><button data-testid="button-logo-dashboard" type="button" onClick={onHome} aria-label={t.ops.openDashboard}><Logo compact /></button></div>
+       <div className="flex items-center gap-2"><button data-testid="button-back-role-dashboard" type="button" onClick={onHome} aria-label={t.common.back} title={t.common.back} className="grid size-10 shrink-0 place-items-center rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"><ArrowRight size={18} className="rotate-180 rtl:rotate-0" /></button><button data-testid="button-logo-dashboard" type="button" onClick={onHome} aria-label={t.common.back}><Logo compact /></button></div>
       <div className="hidden items-center gap-2 rounded-full bg-[hsl(var(--muted)/.7)] px-3 py-2 text-[11px] font-bold text-[hsl(var(--muted-foreground))] md:flex">{role === 'paramedic' ? <Ambulance size={14} /> : <Hospital size={14} />}{role === 'paramedic' ? t.app.paramedic : t.app.hospital}</div>
       <div className="flex items-center gap-1 sm:gap-2">{onSwitchRole && <button data-testid="button-switch-role" type="button" onClick={onSwitchRole} className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2 text-xs font-bold text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]">{t.app.switchRole}</button>}<button data-testid="button-notifications" type="button" onClick={onNotifications} aria-label={t.notifications.title} className="relative rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2.5 text-[hsl(var(--muted-foreground))]"><Bell size={17} />{notifications.length > 0 && <span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-[hsl(var(--destructive))] text-[9px] text-white">{notifications.length}</span>}</button><ThemeToggle t={t} /><LanguageSwitch lang={lang} setLang={setLang} t={t} /></div>
        {notificationOpen && <div className="absolute end-3 top-full mt-1 w-[min(340px,calc(100vw-1.5rem))] rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-xl md:end-9"><div className="mb-3 flex items-center justify-between text-sm font-extrabold">{t.notifications.title}<button data-testid="button-close-notifications" type="button" onClick={onNotifications} aria-label={t.common.close}><X size={16} /></button></div><div className="space-y-2">{notifications.length === 0 ? <p className="text-xs text-[hsl(var(--muted-foreground))]">{t.notifications.empty}</p> : notifications.map((item, index) => <div key={`${item}-${index}`} className="flex gap-2 rounded-xl bg-[hsl(var(--muted)/.7)] p-3 text-xs"><span className="mt-1 size-2 shrink-0 rounded-full bg-[hsl(var(--primary))]" />{t.notifications[item]}</div>)}</div></div>}
@@ -142,7 +143,7 @@ function PatientRecord({ lang, setLang, t, onSend, onHome, notifications, notifi
             <div className="mt-3 flex items-start gap-2 rounded-xl bg-[hsl(var(--primary)/.08)] p-3 text-xs text-[hsl(var(--primary))]"><Clock3 size={14} className="shrink-0" />{t.record.update}: {localize(p.lastUpdate, lang)}</div>
           </div>
         </Card>
-        <Card><SectionTitle icon={ClipboardCheck} title={t.record.medicalInformation} /><div className="grid gap-3 p-5 sm:grid-cols-2">{medicalCards(lang, t).map(({ title, icon: Icon, tone, children }) => <div key={title} className={`rounded-2xl border p-4 ${tone}`}><div className="flex items-center gap-2 text-xs font-extrabold uppercase"><Icon size={16} />{title}</div><div className="mt-4 text-sm">{children}</div></div>)}</div></Card>
+        <Card><SectionTitle icon={ClipboardCheck} title={t.record.medicalInformation} /><div className="p-5"><MedicalInformation lang={lang} t={t} /></div></Card>
       </div>
       <Card className="mt-5 overflow-hidden border-[hsl(var(--primary)/.24)]">
         <SectionTitle icon={HeartPulse} title={t.record.vitals} action={<span className="text-[11px] font-bold text-[hsl(var(--muted-foreground))]">{t.record.captured}</span>} />
@@ -152,11 +153,6 @@ function PatientRecord({ lang, setLang, t, onSend, onHome, notifications, notifi
       <div className="mt-6 flex flex-col justify-between gap-4 rounded-2xl border border-[hsl(var(--primary)/.25)] bg-[hsl(var(--primary)/.07)] p-5 sm:flex-row sm:items-center"><div className="flex items-start gap-3"><ShieldCheck size={19} className="mt-0.5 shrink-0 text-[hsl(var(--primary))]" /><div><div className="text-sm font-extrabold">{t.common.secure}</div><div className="mt-1 text-xs text-[hsl(var(--muted-foreground))]">{t.record.recordDisclaimer}</div></div></div><button type="button" data-testid="button-send-case" onClick={onSend} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[hsl(var(--primary))] px-5 py-3 text-sm font-extrabold text-white">{t.record.sendCase}<ArrowRight size={16} className="rtl:rotate-180" /></button></div>
     </main>
   </Shell>;
-}
-
-function medicalCards(lang: Lang, t: Copy) {
-  const p = demoPatient;
-  return [{ title: t.record.allergies, icon: AlertTriangle, tone: 'border-[hsl(var(--destructive)/.25)] bg-[hsl(var(--destructive)/.07)] text-[hsl(var(--destructive))]', children: <><div className="font-extrabold">{localize(p.allergies, lang)}</div><div className="mt-1 text-xs">{localize(p.allergyDetail, lang)}</div></> }, { title: t.record.chronic, icon: HeartPulse, tone: 'border-[hsl(var(--accent)/.35)] bg-[hsl(var(--accent)/.13)] text-[hsl(33_70%_31%)]', children: p.chronic.map((item) => <div key={item.en}>• {localize(item, lang)}</div>) }, { title: t.record.medications, icon: Pill, tone: 'border-[hsl(203_78%_45%/.2)] bg-[hsl(203_78%_45%/.07)] text-[hsl(203_78%_38%)]', children: p.medications.map((item) => <div key={item.en}>• {localize(item, lang)}</div>) }, { title: t.record.previous, icon: FileText, tone: 'border-[hsl(var(--border))] bg-[hsl(var(--muted)/.55)]', children: p.previous.map((item) => <div key={item.en}>• {localize(item, lang)}</div>) }] as const;
 }
 
 function AISupport({ t }: { t: Copy }) {
@@ -240,7 +236,7 @@ export function PraxFlow() {
   const backToRoles = () => { setRole(null); setView('role'); setNotificationOpen(false); };
   const scan = () => { setScanState('scanning'); window.setTimeout(() => setScanState('verifying'), 700); window.setTimeout(() => { setScanState('verified'); setStage((current) => Math.max(current, 1)); addNotification('identity'); addNotification('allergy'); window.setTimeout(() => setView('record'), 900); }, 1500); };
   const searchPatient = () => { if (nationalId.trim().length < 4) { setIdError(true); return; } setIdError(false); setScanState('verified'); setStage((current) => Math.max(current, 1)); addNotification('identity'); window.setTimeout(() => setView('record'), 500); };
-  const shared = { lang, setLang, t, notifications, notificationOpen, onNotifications: () => setNotificationOpen((value) => !value), onSwitchRole: backToRoles, onHome: () => setView(role === 'hospital' ? 'hospital-dashboard' : 'paramedic-dashboard') };
+   const shared = { lang, setLang, t, notifications, notificationOpen, onNotifications: () => setNotificationOpen((value) => !value), onSwitchRole: backToRoles, onHome: () => setView((current) => current === 'hospital-dashboard' || current === 'paramedic-dashboard' ? 'role' : role === 'hospital' ? 'hospital-dashboard' : 'paramedic-dashboard') };
   const openView = (nextView: View) => setView(nextView);
   if (view === 'role' || !role) return <RoleSelection lang={lang} setLang={setLang} t={t} choose={choose} />;
   if (view === 'login') return <div className="min-h-[100dvh] bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
@@ -252,7 +248,7 @@ export function PraxFlow() {
   </div>;
   if (view === 'paramedic-dashboard') return <Shell {...shared} role="paramedic" showNotice={false}><ParamedicOperations lang={lang} t={t} stage={stage} selectedHospital={selectedHospital} onStart={() => openView('identify')} onContinue={() => stage >= 4 ? setView('transport') : openView(stage === 0 ? 'identify' : stage === 1 ? 'record' : stage === 2 ? 'hospitals' : 'share')} onRecord={() => openView('record')} onTracker={() => setView('transport')} onReset={() => { reset(); setRole('paramedic'); setView('paramedic-dashboard'); }} /></Shell>;
   if (view === 'hospital-dashboard') return <Shell {...shared} role="hospital" showNotice={false}><HospitalOperations lang={lang} t={t} stage={stage} selectedHospital={selectedHospital} onOpen={() => setView('hospital')} /></Shell>;
-  if (view === 'transport') return <Shell {...shared} role="paramedic"><main className="mx-auto max-w-5xl space-y-5 px-5 py-8 md:px-9"><button data-testid="button-back-paramedic-dashboard" type="button" onClick={() => setView('paramedic-dashboard')} className="flex items-center gap-2 text-sm font-bold text-[hsl(var(--primary))]"><ArrowRight size={15} className="rotate-180 rtl:rotate-0" />{t.ops.backDashboard}</button><TransportTracker lang={lang} t={t} stage={stage} selectedHospital={selectedHospital} onArrival={() => setStage(5)} /></main></Shell>;
+   if (view === 'transport') return <Shell {...shared} role="paramedic"><main className="mx-auto max-w-5xl space-y-5 px-5 py-8 md:px-9"><button data-testid="button-back-paramedic-dashboard" type="button" onClick={() => setView('paramedic-dashboard')} aria-label={t.common.back} title={t.common.back} className="grid size-10 place-items-center rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] text-[hsl(var(--primary))]"><ArrowRight size={18} className="rotate-180 rtl:rotate-0" /></button><TransportTracker lang={lang} t={t} stage={stage} selectedHospital={selectedHospital} onArrival={() => setStage(5)} /></main></Shell>;
   if (view === 'identify') return <Identification {...shared} state={scanState} nationalId={nationalId} setNationalId={setNationalId} onScan={scan} onSearch={searchPatient} error={idError} />;
   if (view === 'record') return <PatientRecord {...shared} onSend={() => { setStage((current) => Math.max(current, 2)); openView('hospitals'); }} />;
   if (view === 'hospitals') return <HospitalSelection {...shared} selected={selectedHospital} setSelected={setSelectedHospital} onContinue={() => { setStage((current) => Math.max(current, 3)); openView('share'); }} />;
