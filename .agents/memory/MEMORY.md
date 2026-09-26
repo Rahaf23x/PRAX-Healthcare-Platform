@@ -1,3 +1,0 @@
-- [PRAX demo flow](prax-demo-flow.md) — keep emergency handoff behavior fictional, local, and clearly separated from real medical integrations.
-- [Express function preflight](express-function-preflight.md) — a raw ESM esbuild bundle can falsely fail on CommonJS dynamic require; verify the Node runtime separately.
-- [Vite directive sourcemaps](vite-directive-sourcemaps.md) — Rollup sourcemap warnings may mask an ignored client directive; inspect underlying onLog events before changing map settings.

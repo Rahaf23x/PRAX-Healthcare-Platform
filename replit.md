@@ -1,6 +1,6 @@
-# PRAX Healthcare Platform
+# [Project name]
 
-PRAX is a bilingual Arabic/English healthcare coordination workspace for safer patient handoffs and emergency readiness.
+_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
 
 ## Run & Operate
 
@@ -22,21 +22,15 @@ PRAX is a bilingual Arabic/English healthcare coordination workspace for safer p
 
 ## Where things live
 
-- `artifacts/prax/src/components/prax-app.tsx` — routed clinician, paramedic, and hospital workspace UI with local demo interactions.
-- `artifacts/prax/src/lib/i18n.ts` — centralized English/Arabic translation source.
-- `artifacts/prax/src/index.css` — PRAX theme tokens, Arabic-friendly typography, and responsive base styles.
-- `artifacts/prax/src/App.tsx` — app providers and routed entry point.
+_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
 
 ## Architecture decisions
 
-- The first PRAX experience is frontend-first with fictional local demo data; no patient data is persisted.
-- All interface copy is sourced from one typed English/Arabic translation object, and language is persisted in local storage.
-- Direction and document language are updated at the root document level so every routed screen follows RTL/LTR automatically.
-- Clinical interactions such as alert acknowledgement, AI review, consultation requests, role selection, and settings toggles are intentionally local and immediate for demo use.
+_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
 
 ## Product
 
-PRAX includes role selection, an active-patient dashboard, patient identification and medical history, vital signs, AI clinical support, physician consultation, hospital readiness, alerts, and settings. English is the default language; Arabic switches the full interface to RTL with professional medical terminology.
+_Describe the high-level user-facing capabilities of this app once they exist._
 
 ## User preferences
 
