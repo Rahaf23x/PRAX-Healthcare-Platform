@@ -1,0 +1,1 @@
+- [Vite async config typing](vite-async-config-typing.md) — annotating async config return helps resolve plugin type inference across multiple Vite dependency instances.
